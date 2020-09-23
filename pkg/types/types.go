@@ -234,6 +234,7 @@ type Node struct {
 	Restart    bool              `yaml:"restart" json:"restart,omitempty"`
 	Labels     map[string]string // filled automatically
 	Network    string            // filled automatically
+	ExtraHosts []string          // filled automatically
 	ServerOpts ServerOpts        `yaml:"server_opts" json:"serverOpts,omitempty"`
 	AgentOpts  AgentOpts         `yaml:"agent_opts" json:"agentOpts,omitempty"`
 	State      NodeState         // filled automatically

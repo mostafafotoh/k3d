@@ -88,6 +88,16 @@ func ClusterCreate(ctx context.Context, runtime k3drt.Runtime, cluster *k3d.Clus
 		extraLabels[k3d.LabelNetworkExternal] = "true" // if the network wasn't created, we say that it's managed externally (important for cluster deletion)
 	}
 
+	// add extra host
+	hostIP, err := GetHostIP(ctx, runtime, networkID)
+	if err != nil {
+		return err
+	}
+	log.Debugf("Adding extra host entry '%s'", fmt.Sprintf("%s:%s", "host.k3d.internal", hostIP))
+	for _, node := range cluster.Nodes {
+		node.ExtraHosts = append(node.ExtraHosts, fmt.Sprintf("%s:%s", "host.k3d.internal", hostIP))
+	}
+
 	/*
 	 * Cluster Token
 	 */
